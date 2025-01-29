@@ -1,0 +1,45 @@
+.app-container {
+    font-family: 'Arial', sans-serif;
+    background: url('image.jpg');
+    background-size: cover; /* Ensures the image covers the entire background */
+    color: #fff;
+    min-height: 100vh;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #1f2937;
+    padding: 10px 20px;
+  }
+  
+  .app-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #e0e0e0;
+  }
+  
+  .nav-bar {
+    display: flex;
+    gap: 15px;
+  }
+  
+  .nav-link {
+    color: #e0e0e0;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  
+  .login-Link{
+    padding-top: 10px;
+    color: #e0e0e0;
+    text-decoration: none;
+  }
+  .nav-link:hover {
+    text-decoration: underline;
+    color: #f9a826;
+  }
+  
