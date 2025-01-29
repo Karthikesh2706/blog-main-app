@@ -7,8 +7,19 @@ const path = require('path');
 
 const app = express();
 
-app.use(express.json());
+// Ensure proper CORS and body parsing
 app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Logging middleware for debugging
+app.use((req, res, next) => {
+    console.log(`Received ${req.method} request to ${req.path}`);
+    console.log('Request Body:', req.body);
+    console.log('Request Params:', req.params);
+    next();
+});
+
 app.use('/uploads', express.static('uploads'));
 
 const url = 'mongodb://localhost:27017/BlogApp';
@@ -149,6 +160,184 @@ app.get('/blogs/recent', async (req, res) => {
     } catch (error) {
         console.error('Error fetching blogs:', error);
         res.status(500).json({ message: 'Error fetching blogs' });
+    }
+});
+
+app.get('/blogs/all', async (req, res) => {
+    try {
+        const blogs = await Blog.find().sort({ createdAt: -1 }).populate('userId', 'username');
+        res.json(blogs);
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching blogs', error: error.message });
+    }
+});
+
+app.get('/blogs/user/:userId', async (req, res) => {
+    try {
+        const { userId } = req.params;
+        
+        if (!userId) {
+            return res.status(401).json({ message: 'User ID is required' });
+        }
+        
+        const blogs = await Blog.find({ userId }).sort({ createdAt: -1 });
+        res.json(blogs);
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching user blogs', error: error.message });
+    }
+});
+
+// Update Blog Route
+app.put('/blogs/:id', upload.single('image'), async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { name, description, blogUrl, userId } = req.body;
+        
+        console.log('Update Blog Request:', { 
+            id, 
+            name, 
+            description, 
+            blogUrl, 
+            userId,
+            file: req.file ? req.file.filename : 'No file'
+        });
+        
+        // Validate input
+        if (!name || !description) {
+            console.error('Validation Error: Missing required fields');
+            return res.status(400).json({ 
+                message: 'Name and description are required',
+                details: 'Please provide both name and description'
+            });
+        }
+        
+        // Find the existing blog
+        const existingBlog = await Blog.findById(id);
+        
+        // Check if blog exists
+        if (!existingBlog) {
+            console.error('Blog not found:', id);
+            return res.status(404).json({ 
+                message: 'Blog not found', 
+                details: `No blog exists with ID: ${id}` 
+            });
+        }
+        
+        // Check if user is authorized to update
+        if (existingBlog.userId.toString() !== userId) {
+            console.error('Unauthorized update attempt:', { 
+                existingBlogUserId: existingBlog.userId, 
+                requestUserId: userId 
+            });
+            return res.status(403).json({ 
+                message: 'Not authorized to update this blog',
+                details: 'You can only update your own blogs'
+            });
+        }
+        
+        // Update blog details
+        existingBlog.name = name;
+        existingBlog.description = description;
+        existingBlog.blogUrl = blogUrl || existingBlog.blogUrl;
+        
+        // Update image if a new one is uploaded
+        if (req.file) {
+            existingBlog.imageUrl = `http://localhost:4000/uploads/${req.file.filename}`;
+        }
+        
+        // Save updated blog
+        const updatedBlog = await existingBlog.save();
+        
+        console.log('Blog updated successfully:', updatedBlog);
+        res.json(updatedBlog);
+    } catch (error) {
+        console.error('Error updating blog:', error);
+        res.status(500).json({ 
+            message: 'Failed to update blog', 
+            error: error.message,
+            details: error.toString(),
+            stack: error.stack
+        });
+    }
+});
+
+// Delete Blog Route
+app.delete('/blogs/:id', async (req, res) => {
+    console.log('=== DELETE BLOG ROUTE CALLED ===');
+    console.log('Full Request Details:', {
+        method: req.method,
+        path: req.path,
+        params: req.params,
+        body: req.body,
+        headers: req.headers
+    });
+
+    try {
+        const { id } = req.params;
+        const { userId } = req.body;
+        
+        console.log('Delete Blog Request:', { 
+            id, 
+            userId 
+        });
+        
+        // Validate input
+        if (!id || !userId) {
+            console.error('Validation Error: Missing required fields');
+            return res.status(400).json({ 
+                message: 'Blog ID and User ID are required',
+                details: 'Please provide both blog ID and user ID'
+            });
+        }
+        
+        // Find the existing blog
+        const existingBlog = await Blog.findById(id);
+        
+        // Check if blog exists
+        if (!existingBlog) {
+            console.error('Blog not found:', id);
+            return res.status(404).json({ 
+                message: 'Blog not found', 
+                details: `No blog exists with ID: ${id}` 
+            });
+        }
+        
+        // Check if user is authorized to delete
+        if (existingBlog.userId.toString() !== userId) {
+            console.error('Unauthorized delete attempt:', { 
+                existingBlogUserId: existingBlog.userId, 
+                requestUserId: userId 
+            });
+            return res.status(403).json({ 
+                message: 'Not authorized to delete this blog',
+                details: 'You can only delete your own blogs'
+            });
+        }
+        
+        // Delete the blog
+        const deletedBlog = await Blog.findByIdAndDelete(id);
+        
+        if (!deletedBlog) {
+            console.error('Failed to delete blog:', id);
+            return res.status(500).json({ 
+                message: 'Failed to delete blog',
+                details: `Unable to delete blog with ID: ${id}`
+            });
+        }
+        
+        console.log('Blog deleted successfully:', deletedBlog);
+        res.status(200).json({ 
+            message: 'Blog deleted successfully', 
+            blogId: id 
+        });
+    } catch (error) {
+        console.error('Error deleting blog:', error);
+        res.status(500).json({ 
+            message: 'Failed to delete blog', 
+            error: error.message,
+            details: error.toString(),
+            stack: error.stack
+        });
     }
 });
 

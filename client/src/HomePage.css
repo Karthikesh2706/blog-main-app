@@ -39,6 +39,7 @@
   text-align: center;
   padding: 4rem 0;
   color: #ffffff;
+  margin-bottom: 2rem; /* Increased margin for more space */
 }
 
 .welcome-content {
@@ -48,6 +49,10 @@
   backdrop-filter: blur(10px);
   border-radius: 20px;
   border: 1px solid rgba(38, 208, 206, 0.2);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .welcome-section h1 {
@@ -76,7 +81,7 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 1rem 2rem;
+  padding: 0.75rem 1.5rem;
   font-size: 1.1rem;
   font-weight: 600;
   color: #ffffff;
@@ -86,6 +91,7 @@
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+  margin-top: 1rem; /* Added margin to create more space */
 }
 
 .create-blog-btn:hover {
@@ -96,6 +102,7 @@
 /* Blogs Section */
 .recent-blogs {
   padding: 2rem 0;
+  margin-bottom: 2rem; /* Increased margin for more space */
 }
 
 .blogs-header {
@@ -114,43 +121,68 @@
   -webkit-text-fill-color: transparent;
 }
 
+.section-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem; /* Increased margin to create space before blog grid */
+  padding: 0.5rem 0;
+}
+
+.section-tab {
+  background-color: transparent;
+  border: 2px solid #007bff;
+  color: #007bff;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.section-tab.active {
+  background-color: #007bff;
+  color: white;
+}
+
+.section-tab:hover {
+  background-color: rgba(0, 123, 255, 0.1);
+}
+
 .blogs-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 1.5rem;
+  gap: 2rem;
+  padding: 0 2rem;
 }
 
 .blog-card {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(38, 208, 206, 0.2);
-  border-radius: 15px;
-  overflow: hidden;
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 10px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(38, 208, 206, 0.2);
   display: flex;
   flex-direction: column;
 }
 
 .blog-card:hover {
-  transform: scale(1.05);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  transform: scale(1.03);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
 }
 
-.blog-image {
-  position: relative;
-  overflow: hidden;
-  height: 250px;
-}
-
-.blog-thumbnail {
+.blog-card .blog-thumbnail {
   width: 100%;
-  height: 100%;
+  height: 250px;
   object-fit: cover;
   transition: transform 0.3s ease;
 }
 
 .blog-card:hover .blog-thumbnail {
-  transform: scale(1.1);
+  transform: scale(1.05);
 }
 
 .blog-details {
@@ -176,8 +208,48 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-top: 0.5rem;
+}
+
+.blog-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.edit-btn, 
+.delete-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.3rem 0.6rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
   font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.6);
+  transition: background-color 0.3s ease;
+}
+
+.edit-btn {
+  background-color: #28a745;
+  color: white;
+}
+
+.edit-btn:hover {
+  background-color: #218838;
+}
+
+.delete-btn {
+  background-color: #dc3545;
+  color: white;
+}
+
+.delete-btn:hover {
+  background-color: #c82333;
+}
+
+.edit-btn svg,
+.delete-btn svg {
+  margin-right: 0.2rem;
 }
 
 .form-group textarea {
@@ -204,6 +276,34 @@
 
 .form-group textarea::placeholder {
   color: rgba(255, 255, 255, 0.5);
+}
+
+.submit-blog-btn {
+  width: 100%;
+  padding: 1rem 2rem;
+  background: linear-gradient(45deg, #26d0ce, #1a2980);
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}
+
+.submit-blog-btn:hover {
+  background: linear-gradient(45deg, #1a2980, #26d0ce);
+  transform: scale(1.05);
+  box-shadow: 0 6px 10px rgba(0,0,0,0.3);
+}
+
+.submit-blog-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(38, 208, 206, 0.3);
 }
 
 @media (max-width: 768px) {
