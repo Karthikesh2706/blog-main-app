@@ -2,12 +2,9 @@ import React, { useState } from 'react';
 import './RegistrationPage.css'; 
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-// import HomePage from '../HomePage';
 
 const RegistrationPage = () => {
   const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
@@ -20,7 +17,7 @@ const RegistrationPage = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username, email, phone, password }),
+        body: JSON.stringify({ username, password }),
       });
 
       const data = await response.json();
@@ -50,28 +47,6 @@ const RegistrationPage = () => {
             placeholder="Enter your username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Email</label>
-          <input
-            type="email"
-            placeholder="Enter your email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Phone Number</label>
-          <input className="phone-input"
-            type="tel"
-            placeholder="Enter your phone number"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
             required
           />
         </div>

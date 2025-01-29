@@ -41,8 +41,6 @@ const upload = multer({
 // User Schema
 const UserSchema = new mongoose.Schema({
     username: { type: String, required: true, unique: true },
-    email: { type: String, required: true, unique: true },
-    phone: { type: String, required: true },
     password: { type: String, required: true },
     createdAt: { type: Date, default: Date.now }
 });
@@ -61,7 +59,7 @@ const User = mongoose.model('User', UserSchema);
 const Blog = mongoose.model('Blog', BlogSchema);
 
 app.post('/register', async(req, res) => {
-    const { username, email, phone, password } = req.body;
+    const { username, password } = req.body;
     
     try {
         // Check if username already exists
@@ -70,20 +68,12 @@ app.post('/register', async(req, res) => {
             return res.status(400).json({ message: 'Username already exists' });
         }
 
-        // Check if email already exists
-        const existingEmail = await User.findOne({ email });
-        if (existingEmail) {
-            return res.status(400).json({ message: 'Email already exists' });
-        }
-
         // Hash the password
         const hashedPassword = await bcrypt.hash(password, 10);
         
         // Create new user
         const newUser = new User({
             username,
-            email,
-            phone,
             password: hashedPassword
         });
         
@@ -96,30 +86,29 @@ app.post('/register', async(req, res) => {
 })
 
 app.post('/login', async (req, res) => {
-    const { email, password } = req.body;
+    const { username, password } = req.body;
 
     try {
-        // Find user by email
-        const user = await User.findOne({ email });
+        // Find user by username
+        const user = await User.findOne({ username });
         if (!user) {
-            return res.status(400).json({ message: 'Invalid email or password' });
+            return res.status(400).json({ message: 'Invalid username or password' });
         }
 
         // Check password
         const validPassword = await bcrypt.compare(password, user.password);
         if (!validPassword) {
-            return res.status(400).json({ message: 'Invalid email or password' });
+            return res.status(400).json({ message: 'Invalid username or password' });
         }
 
         // Send user info (excluding password)
         res.json({
             id: user._id,
-            email: user.email,
             username: user.username
         });
     } catch (err) {
         console.error('Login error:', err);
-        res.status(500).json({ message: 'Server error' });
+        res.status(500).json({ message: 'Server error during login' });
     }
 });
 

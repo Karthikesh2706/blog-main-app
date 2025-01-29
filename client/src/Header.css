@@ -8,29 +8,74 @@
     margin: 0;
   }
   
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
   .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #1f2937;
-    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    padding: 15px 40px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid rgba(38, 208, 206, 0.2);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
   
   .app-title {
     font-size: 24px;
     font-weight: bold;
-    color: #e0e0e0;
+    background: linear-gradient(45deg, #26d0ce, white);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
   }
   
   .nav-bar {
     display: flex;
-    gap: 15px;
+    gap: 25px;
+    align-items: center;
   }
   
   .nav-link {
-    color: #e0e0e0;
+    color: rgba(255, 255, 255, 0.8);
     text-decoration: none;
     font-weight: 500;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.95rem;
+    position: relative;
+    transition: color 0.3s ease;
+    padding: 5px 10px;
+  }
+  
+  .nav-link::before {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(45deg, #26d0ce, #1a2980);
+    transition: width 0.3s ease;
+  }
+  
+  .nav-link:hover {
+    color: #26d0ce;
+  }
+  
+  .nav-link:hover::before {
+    width: 100%;
+  }
+  
+  .nav-link.active {
+    color: #26d0ce;
+  }
+  
+  .nav-link.active::before {
+    width: 100%;
   }
   
   .login-Link{
@@ -38,8 +83,17 @@
     color: #e0e0e0;
     text-decoration: none;
   }
-  .nav-link:hover {
-    text-decoration: underline;
-    color: #f9a826;
-  }
   
+  @media (max-width: 768px) {
+    .header {
+      flex-direction: column;
+      padding: 15px 20px;
+    }
+  
+    .nav-bar {
+      margin-top: 15px;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+    }
+  }

@@ -5,8 +5,11 @@ body, html {
   padding: 0;
   font-family: 'Poppins', sans-serif;
   height: 100%;
-  background: linear-gradient(135deg, #1a1c20 0%, #2d3436 100%);
+  background-image: url('https://c0.wallpaperflare.com/preview/738/49/192/cloud-computing-illustration-technology.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
   background-size: cover;
+  background-attachment: fixed;
 }
 
 .body-container {
@@ -17,13 +20,26 @@ body, html {
   min-height: 100vh;
   padding: 2rem;
   color: #ffffff;
+  position: relative;
+}
+
+.body-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(26, 41, 128, 0.7); /* Deep blue overlay with transparency */
+  backdrop-filter: blur(5px);
+  z-index: 1;
 }
 
 .blog-title {
   font-size: 3.5rem;
   font-weight: 700;
   margin-bottom: 3rem;
-  background: linear-gradient(45deg, #ff6b6b, #ee5253);
+  background: linear-gradient(45deg, #26d0ce, #1a2980);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
@@ -59,7 +75,7 @@ body, html {
 
 .quote-icon {
   font-size: 1.5rem;
-  color: #ff6b6b;
+  color: #26d0ce;
   margin-bottom: 1rem;
 }
 
@@ -77,6 +93,14 @@ body, html {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.right-section .subtext {
+  text-align: center;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 2rem;
+  max-width: 300px;
 }
 
 .welcome-message {
@@ -100,21 +124,142 @@ body, html {
   font-size: 1.2rem;
   font-weight: 500;
   color: #ffffff;
-  background: linear-gradient(45deg, #ff6b6b, #ee5253);
+  background: linear-gradient(45deg, #26d0ce, #1a2980);
   border: none;
   border-radius: 30px;
   text-decoration: none;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(238, 82, 83, 0.2);
+  box-shadow: 0 4px 15px rgba(26, 41, 128, 0.2);
 }
 
 .start-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(238, 82, 83, 0.3);
+  box-shadow: 0 6px 20px rgba(26, 41, 128, 0.3);
 }
 
 .rocket-icon {
   font-size: 1.3rem;
+}
+
+.landing-grid {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 3rem;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  color: white;
+}
+
+.landing-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.landing-grid .blog-title {
+  font-size: 4rem;
+  font-weight: 700;
+  background: linear-gradient(45deg, #26d0ce, white);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 1rem;
+}
+
+.blog-subtitle {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.5rem;
+  font-weight: 300;
+}
+
+.landing-features {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  width: 100%;
+}
+
+.feature-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  padding: 2rem;
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid rgba(38, 208, 206, 0.2);
+}
+
+.feature-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 20px rgba(26, 41, 128, 0.3);
+}
+
+.feature-icon {
+  font-size: 3rem;
+  color: #26d0ce;
+  margin-bottom: 1rem;
+}
+
+.feature-card h3 {
+  color: white;
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+}
+
+.feature-card p {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+}
+
+.landing-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.explore-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(45deg, #26d0ce, #1a2980);
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}
+
+.explore-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 10px rgba(26, 41, 128, 0.4);
+}
+
+.button-icon {
+  margin-right: 0.5rem;
+  font-size: 1.2rem;
+}
+
+.cta-subtext {
+  display: flex;
+  align-items: center;
+  color: rgba(255, 255, 255, 0.7);
+  gap: 0.5rem;
+}
+
+.subtext-icon {
+  color: #26d0ce;
 }
 
 @media (max-width: 768px) {
@@ -129,5 +274,15 @@ body, html {
   
   .welcome-message {
     font-size: 1.8rem;
+  }
+  
+  .landing-features {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .feature-card {
+    width: 90%;
+    max-width: 350px;
   }
 }

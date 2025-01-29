@@ -8,7 +8,7 @@ const HomePage = () => {
   const { userInfo } = useContext(UserContext);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [recentBlogs, setRecentBlogs] = useState([]);
-  const [activeTab, setActiveTab] = useState('all'); // 'all' or 'my'
+  const [activeTab, setActiveTab] = useState('all');
   const [newBlog, setNewBlog] = useState({
     name: '',
     description: '',
@@ -105,11 +105,18 @@ const HomePage = () => {
       
       <main className="main-content">
         <div className="welcome-section">
-          <h1>Welcome to Blockify</h1>
-          <p>Share your thoughts, stories, and ideas with the world</p>
-          <button className="create-blog-btn" onClick={() => setShowCreateModal(true)}>
-            <FaPlus /> Create New Blog
-          </button>
+          <div className="welcome-content">
+            <h1>Discover and Share</h1>
+            <p>Your gateway to creative expression and knowledge sharing</p>
+            <div className="welcome-actions">
+              <button 
+                className="create-blog-btn" 
+                onClick={() => setShowCreateModal(true)}
+              >
+                <FaPlus /> Create Blog
+              </button>
+            </div>
+          </div>
         </div>
 
         {showCreateModal && (
@@ -119,11 +126,11 @@ const HomePage = () => {
                 <FaTimes />
               </button>
               
-              <h2>Create New Blog</h2>
+              <h2>Create Your Blog</h2>
               {error && <div className="error-message">{error}</div>}
               <form onSubmit={handleCreateBlog}>
                 <div className="form-group">
-                  <label>Blog Name</label>
+                  <label>Blog Title</label>
                   <input
                     type="text"
                     value={newBlog.name}
@@ -137,6 +144,7 @@ const HomePage = () => {
                   <textarea
                     value={newBlog.description}
                     onChange={(e) => setNewBlog({ ...newBlog, description: e.target.value })}
+                    placeholder="Write a brief description of your blog..."
                     required
                   />
                 </div>
@@ -168,7 +176,7 @@ const HomePage = () => {
                 </div>
 
                 <button type="submit" className="submit-blog-btn">
-                  Create Blog
+                  Publish Blog
                 </button>
               </form>
             </div>
@@ -176,22 +184,24 @@ const HomePage = () => {
         )}
 
         <section className="recent-blogs">
-          <h2 className="section-title">Blogs</h2>
-          <div className="section-tabs">
-            <button
-              className={`section-tab ${activeTab === 'all' ? 'active' : ''}`}
-              onClick={() => setActiveTab('all')}
-            >
-              All Blogs
-            </button>
-            {userInfo && (
+          <div className="blogs-header">
+            <h2>Explore Blogs</h2>
+            <div className="section-tabs">
               <button
-                className={`section-tab ${activeTab === 'my' ? 'active' : ''}`}
-                onClick={() => setActiveTab('my')}
+                className={`section-tab ${activeTab === 'all' ? 'active' : ''}`}
+                onClick={() => setActiveTab('all')}
               >
-                My Blogs
+                All Blogs
               </button>
-            )}
+              {userInfo && (
+                <button
+                  className={`section-tab ${activeTab === 'my' ? 'active' : ''}`}
+                  onClick={() => setActiveTab('my')}
+                >
+                  My Blogs
+                </button>
+              )}
+            </div>
           </div>
           <div className="blogs-grid">
             {filteredBlogs.map((blog) => (
@@ -201,11 +211,20 @@ const HomePage = () => {
                 onClick={() => handleBlogClick(blog.blogUrl)}
               >
                 <div className="blog-image">
-                  <img src={blog.imageUrl} alt={blog.name} />
+                  <img 
+                    src={blog.imageUrl} 
+                    alt={blog.name} 
+                    className="blog-thumbnail"
+                  />
                 </div>
-                <div className="blog-info">
+                <div className="blog-details">
                   <h3>{blog.name}</h3>
                   <p>{blog.description}</p>
+                  <div className="blog-meta">
+                    <span className="blog-author">
+                      {blog.userId === userInfo?.id ? 'You' : 'Another User'}
+                    </span>
+                  </div>
                 </div>
               </div>
             ))}

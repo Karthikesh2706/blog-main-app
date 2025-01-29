@@ -4,7 +4,7 @@ import { UserContext } from '../UserContext';
 import './LoginPage.css';
 
 const LoginPage = () => {
-    const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
 
@@ -21,7 +21,7 @@ const LoginPage = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ email, password }),
+                body: JSON.stringify({ username, password }),
             });
 
             const data = await response.json();
@@ -44,12 +44,12 @@ const LoginPage = () => {
                 <h2>Welcome Back!</h2>
                 
                 <div className="form-group">
-                    <label>Email</label>
+                    <label>Username</label>
                     <input
-                        type="email"
-                        placeholder="Enter your email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        type="text"
+                        placeholder="Enter your username"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
                         required
                     />
                 </div>
